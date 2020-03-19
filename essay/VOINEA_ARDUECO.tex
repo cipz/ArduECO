@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -14,9 +15,9 @@
 \title{ArduECO: real time and cheap air quality control for cities}
 
 \author{\IEEEauthorblockN{Voinea Stefan Ciprian}
-\IEEEauthorblockA{\textit{University of Padova} \\
+\IEEEauthorblockA{\textit{University of Padova, Italy} \\
 \textit{Department of Pure and Applied Mathematics}\\
-Padova, Italy \\
+%Padova, Italy \\
 stefanciprian.voinea@studenti.unipd.it}
 %\and
 %\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
@@ -37,33 +38,81 @@ Arduino, embedded, air-quality
 \end{IEEEkeywords}
 
 \section{Introduction}
-Introduction
+More and more people around the world have started to understand the importance of air quality and how much having good air can influence our lives, both on the small and the large scale.
+A good example of this is the choice made by the government of luxemburg, that listened to the needs of its people and made the first country in the world to offer nationwide free public transport for everyone\cite{luxemburg}.\\
+Alternatives to car for commuting have become more popular, sometimes even more than public transportation\cite{b01}.\\
+With the advent of platforms like Arduino\cite{b01} in 2007 and the more powerful Raspberry Pi\cite{b02} even the people that weren't acquainted but curious to learn have started tinkering.
+
+
+example of how air quality analysis has become important over the last years, especially in countries and cities like china and india
+
+The purpose of this paper describe project
+
+
+
+how the paper is organized
 
 \section{Background - Problem}
 % \subsection{Maintaining the Integrity of the Specifications}
 Background
 
+spiegare quali sono le particelle di inquinamento nell'aria
+
+spiegare quali sono i sensori presenti sul mercato che possono rilevarle
+
+tabella con sensori mq e differenze
+
+come mai la scelta di implementarlo in quel modo
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=8cm]{fig3.jpg}}
+	\caption{Example of a figure caption.\cite{bibid}}
+	\label{fig}
+\end{figure}
+
 \section{State of the art}
 % \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
+State of the art non solamente della letteratura ma anche di quello che viene offerto sul mercato
 
 \section{Proposed solution}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
 
-\section{The circuit}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
+The idea is to show how this kind of devices can be portable enough to install on bikes
+companies like mobike could use them on their own bikes in order to gather data
+
+\subsection{The circuit}\label{AA}
+The circuit that composes this project is made of four main components:
+\begin{itemize}
+	\item \textit{NodeMCU}: it's the hearts and brains of the device, this board is an open-source development kit based on the ESP8266 chip that allows for prototyping of IOT devices;
+	\item \textit{MicroSD card reader}: 
+	\item \textit{GPS sensor}: 
+	\item \textit{MQ sensor}:
+\end{itemize}
+
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=8cm]{fig1.png}}
+	\caption{Example of a figure caption.}
+	\label{fig}
+\end{figure}
+
 
 \section{The software}
 % \subsection{Abbreviations and Acronyms}\label{AA}
 State of the art
 
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=8cm]{fig2.png}}
+	\caption{Example of a figure caption.}
+	\label{fig}
+\end{figure}
+
 \section{The cloud}
 % \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
+Use of MQTT server 
 
-\section{Test scenarios}
+snippet del json che arriva al server mqtt
+
+%\section{Test scenarios}
 \subsection{Prototype test}
 \subsection{Real life implementation}
 % \subsection{Abbreviations and Acronyms}\label{AA}
@@ -75,11 +124,14 @@ State of the art
 
 \section{Future improvements}
 
-In this section
+In this section 
 
 \subsection{Hardware improvements}
 \subsection{Software improvements}
 \subsection{Cloud services improvements}
+
+\section{Conclusions and future work}
+This paper describes the implementation of a wireless IoT system capable to gather data from air and send it to the cloud in order to be analyzed and displayed.
 
 %\subsection{Units}
 %\begin{itemize}
@@ -109,7 +161,7 @@ In this section
 %
 %Please use ``soft'' (e.g., \verb|\eqref{Eq}|) cross references instead
 %of ``hard'' references (e.g., \verb|(1)|). That will make it possible
-%to combine sections, add equations, or change the order of figures or
+%to combine sections, add equations, or change the order of ures or
 %citations without having to go through the file line by line.
 %
 %Please don't use the \verb|{eqnarray}| equation environment. Use
@@ -255,15 +307,7 @@ acknowledgments in the unnumbered footnote on the first page.
 %For papers published in translation journals, please give the English 
 %citation first, followed by the original foreign-language citation \cite{b6}.
 
-\begin{thebibliography}{00}
-\bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
-\bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
-\bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
-\bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
-\bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
-\bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
-\bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
-\end{thebibliography}
+\input{bib.tex}
 
 %\vspace{12pt}
 %\color{red}
