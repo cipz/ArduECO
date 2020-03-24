@@ -8,6 +8,44 @@
 \usepackage{hyperref}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{listings}
+\usepackage{lipsum}
+
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{blue!60!black}
+
+\lstdefinelanguage{json}{
+	basicstyle=\normalfont\ttfamily,
+%	numbers=left,
+%	numberstyle=\scriptsize,
+%	stepnumber=1,
+%	numbersep=8pt,
+%	showstringspaces=false,
+%	breaklines=true,
+%	frame=lines,
+%	backgroundcolor=\color{background},
+	literate=
+	*{0}{{{\color{numb}0}}}{1}
+	{1}{{{\color{numb}1}}}{1}
+	{2}{{{\color{numb}2}}}{1}
+	{3}{{{\color{numb}3}}}{1}
+	{4}{{{\color{numb}4}}}{1}
+	{5}{{{\color{numb}5}}}{1}
+	{6}{{{\color{numb}6}}}{1}
+	{7}{{{\color{numb}7}}}{1}
+	{8}{{{\color{numb}8}}}{1}
+	{9}{{{\color{numb}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delim}{\{}}}}{1}
+	{\}}{{{\color{delim}{\}}}}}{1}
+	{[}{{{\color{delim}{[}}}}{1}
+	{]}{{{\color{delim}{]}}}}{1},
+}
+
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -17,40 +55,46 @@
 \author{\IEEEauthorblockN{Voinea Stefan Ciprian}
 \IEEEauthorblockA{\textit{University of Padova, Italy} \\
 \textit{Department of Pure and Applied Mathematics}\\
-%Padova, Italy \\
-stefanciprian.voinea@studenti.unipd.it}
-%\and
-%\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-%\textit{name of organization (of Aff.)}\\
-%City, Country \\
-%email address or ORCID}
+	%Padova, Italy \\
+	stefanciprian.voinea@studenti.unipd.it}
+	%\and
+	%\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+	%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+	%\textit{name of organization (of Aff.)}\\
+	%City, Country \\
+	%email address or ORCID}
 }
 
 \maketitle
 
 \begin{abstract}
-Abstract
+	\lipsum[2-4]
 \end{abstract}
+
+\vspace{.2cm}
 
 \begin{IEEEkeywords}
 Arduino, embedded, air-quality
 \end{IEEEkeywords}
 
 \section{Introduction}
-More and more people around the world have started to understand the importance of air quality and how much having good air can influence our lives, both on the small and the large scale.
-A good example of this is the choice made by the government of luxemburg, that listened to the needs of its people and made the first country in the world to offer nationwide free public transport for everyone\cite{luxemburg}.\\
-Alternatives to car for commuting have become more popular, sometimes even more than public transportation\cite{b01}.\\
-With the advent of platforms like Arduino\cite{b01} in 2007 and the more powerful Raspberry Pi\cite{b02} even the people that weren't acquainted but curious to learn have started tinkering.
 
-
-example of how air quality analysis has become important over the last years, especially in countries and cities like china and india
-
-The purpose of this paper describe project
-
-
-
-how the paper is organized
+	More and more people around the world have started to understand the importance of air quality and how much having good air can influence our lives, both on the small and large scale. 
+	To have clean air, all of us have to do something to avoid polluting it. \\
+	A good example of this is the choice made by the government of Luxembourg, that listened to the needs of its people and made the first country in the world to offer nationwide free public transport for everyone.\\
+	But for short commutes, other vehicles (either powered by humans or by batteries) have started to arise and conquer cities, starting from the more classic bike (cite article), to the infamous electric skateboard to the more revolutionary electric scooter.\\
+	Since not everybody owns either of these green methods of transportation, companies like Mobike and MiMoto (cite websites) have seen the opportunity to get themselves in the market of shared transport, giving a pay-per-use solution for bikes, electric scooters and other similar vehicles.
+	Each company with its own app, network infrastructure and smart devices aboard their vehicles, helping gather data like GPS (Global Positioning System) position, speed, time spent by the user, parking position in order to compute in on the cloud and output the cost of the ride and charge it to the client.\\
+	All this falls under the IoT (Internet of Things) paradigm, which, has become a well-described market with new ideas and business opportunities popping out every day.
+	Among the data that is collected by these companies, there is none that regards air and pollution.\\
+	In this article, I would like to describe ArduECO, a simple cheap wireless device based on an Arduino-like board that is capable of gathering data from the previously described vehicles and sending it to the cloud, in order to be processed and displayed.\\
+	This paper is organized as follows:
+	\begin{itemize}
+		\item Section 2: Background and description of the problem
+		\item Section 3: State of the art on smart devices that allow tracking pollution
+		\item Section 4: implementation of the proposed solution
+		\item Section 5: Conclusions
+	\end{itemize}
 
 \section{Background - Problem}
 % \subsection{Maintaining the Integrity of the Specifications}
@@ -76,59 +120,105 @@ State of the art non solamente della letteratura ma anche di quello che viene of
 
 \section{Proposed solution}
 
-The idea is to show how this kind of devices can be portable enough to install on bikes
-companies like mobike could use them on their own bikes in order to gather data
+	The idea is to show how this kind of devices can be portable enough to install on bikes
+	companies like mobike could use them on their own bikes in order to gather data
+	
+	Dire che arduino è open source anche dal punto di vista hardware
+	
+	\subsection{The circuit}\label{AA}
+		The circuit that composes this project is made of four main components:
+		\begin{itemize}
+			\item \textit{NodeMCU}: it's the hearts and brains of the device, this board is an open-source development kit based on the ESP8266 chip that allows for prototyping of IOT devices;
+			\item \textit{MicroSD card reader}: 
+			\item \textit{GPS sensor}: onboard led that indicates when it acquired the position
+			\item \textit{MQ sensor}: as explained earlier the MQ sensor used in this project is MQ7 but it can easily be exchanged with other similar sensors that use the same board
+		\end{itemize}
+	
+		It make detection by method of cycle high and low temperature, and detect CO when low temperature \cite{mq7}
+	
+		The other components are used for interacting with the user, as the leds and the button
+		
+		In the possible improvements section i explain how the circuit can be improved 
+	
+	\begin{figure}[htbp]
+		\centerline{\includegraphics[width=8cm]{fig1.png}}
+		\caption{Example of a figure caption.}
+		\label{fig}
+	\end{figure}
 
-\subsection{The circuit}\label{AA}
-The circuit that composes this project is made of four main components:
-\begin{itemize}
-	\item \textit{NodeMCU}: it's the hearts and brains of the device, this board is an open-source development kit based on the ESP8266 chip that allows for prototyping of IOT devices;
-	\item \textit{MicroSD card reader}: 
-	\item \textit{GPS sensor}: 
-	\item \textit{MQ sensor}:
-\end{itemize}
 
-
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=8cm]{fig1.png}}
-	\caption{Example of a figure caption.}
-	\label{fig}
-\end{figure}
-
-
-\section{The software}
+\subsection{The Arduino software}
 % \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
+The reasons behind the choice of using Arduino's programming language instead of micropython \cite{micropyhton} because of the large community behind.
 
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=8cm]{fig2.png}}
-	\caption{Example of a figure caption.}
-	\label{fig}
-\end{figure}
+The arduino programming language is composed by a setup function and a loop function
+in the setup i control 
 
-\section{The cloud}
+in the loop i check
+
+\subsection{The cloud}
 % \subsection{Abbreviations and Acronyms}\label{AA}
 Use of MQTT server 
 
 snippet del json che arriva al server mqtt
 
-%\section{Test scenarios}
-\subsection{Prototype test}
-\subsection{Real life implementation}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
+\begin{lstlisting}[language=json,firstnumber=1]
+{
+    "id": "318",
+    "air": "10.77",
+    "lt": "45.39658",
+    "lg": "11.88528",
+    "dt": "260220.12283200",
+    "tpc": "cocco"
+}
+\end{lstlisting}
 
-\section{Results and data analysis}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art
+\subsection{Possible total cost}
+
+	most of these parts are open source and can be found sold on 
+	
+\section{Results and data analysis}\label{AA}
+	\subsection{Test scenarios}
+
+		\subsubsection{Prototype test}
+
+		\subsubsection{Real life implementation}
+			% \subsection{Abbreviations and Acronyms}\label{AA}
+			State of the art
+	
+	\begin{figure}[htbp]
+		\centerline{\includegraphics[width=8cm]{fig2.png}}
+		\caption{Example of a figure caption.}
+		\label{fig}
+	\end{figure}
 
 \section{Future improvements}
 
-In this section 
-
-\subsection{Hardware improvements}
-\subsection{Software improvements}
-\subsection{Cloud services improvements}
+	In this section 
+	
+	\subsection{Hardware improvements}
+	
+		There are various improvements that could be made to the circuit and the hardware used, for example in this project using one single air quality sensor could be seen as a drawback since we could take advantage of the cheapness of these sensors
+		
+		It is possible to add multiple sensors by expanding the analog inputs using an \textit{Analog to Digital Converter} (ADC)
+		
+		that converts an analog voltage on a pin to a digital number. By converting from the analog world to the digital world, we can begin to use electronics to interface to the analog world around us.\cite{adc}
+	
+		In case we would want to use another transmission medium instead of wifi we could think about switching boards and use an arduino leonardo or an arduino uno or whatever iteration possible
+	
+	\subsection{Software improvements}
+	
+		Supposed we use the same architecture we can improve the software such that instead of looking for the ap and snding the data only when the button is pressef it could be set such that 
+		
+	\subsection{Cloud services improvements}
+	
+		In the development of this project I was forced by the we server host altervista.org to connect to the database only from within
+		
+		connections within its domain
+		
+		i was not able to allow the lambda to insert the data directly in the database, so I was forced to create an intermediate webpage to insert that data
+		
+		for this reason a possible improvement could be 
 
 \section{Conclusions and future work}
 This paper describes the implementation of a wireless IoT system capable to gather data from air and send it to the cloud in order to be analyzed and displayed.
