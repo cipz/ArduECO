@@ -30,7 +30,6 @@ MQ7 mq7(A0, 3.3);
 
 // 60 sec = 60000 millis
 #define LOOP_DELAY 1000 * 5
-// #define LOOP_DELAY 1000 * sec
 
 File cache_log_file;
 File perm_log_file;
