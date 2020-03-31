@@ -10,6 +10,11 @@
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{lipsum}
+\usepackage{eurosym}
+\usepackage{soul}
+\usepackage{color}
+
+\DeclareRobustCommand{\hlcyan}[1]{{\sethlcolor{cyan}\hl{#1}}}
 
 \colorlet{punct}{red!60!black}
 \definecolor{background}{HTML}{EEEEEE}
@@ -50,7 +55,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{ArduECO: real time and cheap air quality control for cities}
+\title{ArduECO: cheap air quality control for cities}
 
 \author{\IEEEauthorblockN{Voinea Stefan Ciprian}
 \IEEEauthorblockA{\textit{University of Padova, Italy} \\
@@ -68,7 +73,7 @@
 \maketitle
 
 \begin{abstract}
-	\lipsum[2-4]
+	\lipsum[1]
 \end{abstract}
 
 \vspace{.2cm}
@@ -77,17 +82,18 @@
 Arduino, embedded, air-quality
 \end{IEEEkeywords}
 
-\section{Introduction}
-
-	More and more people around the world have started to understand the importance of air quality and how much having good air can influence our lives, both on the small and large scale. 
+\section{Introduction}\label{intro}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OK
+	More and more people around the world have started to understand the importance of air quality and how much having clean and pollution-free air can influence our lives, both on the small and large scale. 
 	To have clean air, all of us have to do something to avoid polluting it. \\
-	A good example of this is the choice made by the government of Luxembourg, that listened to the needs of its people and made the first country in the world to offer nationwide free public transport for everyone.\\
-	But for short commutes, other vehicles (either powered by humans or by batteries) have started to arise and conquer cities, starting from the more classic bike (cite article), to the infamous electric skateboard to the more revolutionary electric scooter.\\
-	Since not everybody owns either of these green methods of transportation, companies like Mobike and MiMoto (cite websites) have seen the opportunity to get themselves in the market of shared transport, giving a pay-per-use solution for bikes, electric scooters and other similar vehicles.
-	Each company with its own app, network infrastructure and smart devices aboard their vehicles, helping gather data like GPS (Global Positioning System) position, speed, time spent by the user, parking position in order to compute in on the cloud and output the cost of the ride and charge it to the client.\\
-	All this falls under the IoT (Internet of Things) paradigm, which, has become a well-described market with new ideas and business opportunities popping out every day.
-	Among the data that is collected by these companies, there is none that regards air and pollution.\\
-	In this article, I would like to describe ArduECO, a simple cheap wireless device based on an Arduino-like board that is capable of gathering data from the previously described vehicles and sending it to the cloud, in order to be processed and displayed.\\
+	The Government of Luxembourg has set a good example becoming the first country to offer nationwide free public transport to the citizens\cite{luxemburg}.\\
+	For short commutes, vehicles like the classic bike\cite{bike}, the infamous skateboard and the scooter have started to arise and conquer cities, either in their battery-powered or old-school human-powered.\\
+	Since not everyone necessarily owns one of these green methods of transportation, companies like \textit{Mobike}\cite{mobike} and \textit{MiMoto}\cite{mimoto} have seen the opportunity to enter the market of shared transportation, proposing a \textit{pay-per-use} solution for bikes, electric scooters and other similar vehicles.	
+	Each company has its own application, network infrastructure and smart devices aboard their vehicles, gathering data like GPS (Global Positioning System) position, time spent by the user, parking spot, etc. to send it in the cloud and compute information like cost of the ride and charging it to the user.\\
+	All this falls under the \textit{IoT} (Internet of Things) paradigm, which has become a well-described market with new ideas and business opportunities being presented every day.\\
+	Among the data collected by these companies, none is about air pollution.\\
+	In this article, I describe \textit{ArduECO}, a wireless device based on an Arduino-like board capable of gathering data from previously named vehicles and sending it to the cloud, to be processed and displayed.\\
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	This paper is organized as follows:
 	\begin{itemize}
 		\item Section 2: Background and description of the problem
@@ -96,7 +102,7 @@ Arduino, embedded, air-quality
 		\item Section 5: Conclusions
 	\end{itemize}
 
-\section{Background - Problem}
+\section{Background problem}
 % \subsection{Maintaining the Integrity of the Specifications}
 Background
 
@@ -108,74 +114,116 @@ tabella con sensori mq e differenze
 
 come mai la scelta di implementarlo in quel modo
 
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=8cm]{fig3.jpg}}
-	\caption{Example of a figure caption.\cite{bibid}}
-	\label{fig}
-\end{figure}
-
 \section{State of the art}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-State of the art non solamente della letteratura ma anche di quello che viene offerto sul mercato
-
-\section{Proposed solution}
-
-	The idea is to show how this kind of devices can be portable enough to install on bikes
-	companies like mobike could use them on their own bikes in order to gather data
-	
-	Dire che arduino è open source anche dal punto di vista hardware
-	
-	\subsection{The circuit}\label{AA}
-		The circuit that composes this project is made of four main components:
-		\begin{itemize}
-			\item \textit{NodeMCU}: it's the hearts and brains of the device, this board is an open-source development kit based on the ESP8266 chip that allows for prototyping of IOT devices;
-			\item \textit{MicroSD card reader}: 
-			\item \textit{GPS sensor}: onboard led that indicates when it acquired the position
-			\item \textit{MQ sensor}: as explained earlier the MQ sensor used in this project is MQ7 but it can easily be exchanged with other similar sensors that use the same board
-		\end{itemize}
-	
-		It make detection by method of cycle high and low temperature, and detect CO when low temperature \cite{mq7}
-	
-		The other components are used for interacting with the user, as the leds and the button
-		
-		In the possible improvements section i explain how the circuit can be improved 
+	% \subsection{Abbreviations and Acronyms}\label{AA}
+	State of the art non solamente della letteratura ma anche di quello che viene offerto sul mercato
 	
 	\begin{figure}[htbp]
-		\centerline{\includegraphics[width=8cm]{fig1.png}}
-		\caption{Example of a figure caption.}
+		\centerline{\includegraphics[width=8cm]{fig3.jpg}}
+		\caption{Example of a figure caption.\cite{bibid}}
 		\label{fig}
 	\end{figure}
 
 
-\subsection{The Arduino software}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-The reasons behind the choice of using Arduino's programming language instead of micropython \cite{micropyhton} because of the large community behind.
+% DARE DEFINIZIONE DI OPEN SOURCE DA QUALCHE PARTE?
+\section{Proposed solution}\label{solution}
+	
+	ArduECO is a wireless IoT device that represents one of the possible combinations of open source hardware and software.
+	% DIRE COSA EFFETTIVAMENTE VIENE CATTURATO, COSA CHE DEVE ESSERE DISCUSSA NEL PARAGRAFO PRECEDENTE
+	\hlcyan{This wireless device is able to detect substances in the air and send the data in the cloud over Wi-Fi, and combined with data from other similar devices detect the level of pollution in the air.}\\
+	The schematics for this project have been designed using Fritzing, a CAD (Computer-Aided Design) software for the design of electronics hardware\cite{fritzing} and can be seen in Fig.~\ref{schematics}.
+	Both code and schematics for this device are available on the GitHub repository ``ArduECO''\cite{ardueco_git}.\\
+	Schematics for other components can be easily found online from various sources and vendors: here, for example are the schematics for the MQ7 sensor from SparkFun\cite{spark_mq} and the NodeMCU\cite{node_scheme}.
+	
+	\subsection{The circuit}\label{circuit}
+	
+		ArduECO is composed by four main components:
+		\begin{itemize}
+			\item \textit{NodeMCU}: it's the hearts and brains of the device, this board is an open-source development kit based on the ESP8266 chip that allows for prototyping of IoT devices;
+			\item \textit{MicroSD card reader}: this allow for collecting and keeping data cached for the current ride and permanently on a removable memory card;
+			\item \textit{GPS sensor}: this allows for localizing the device, it has an onboard LED that blinks when it has established communication with the satellites;
+			% AGGIUNGERE COSA RACCOGLIE ESATTAMENTE QUESTO SENSORE
+			\item \hlcyan{\textit{MQ sensor}: the MQ sensor used in this project is MQ7 but it can easily be exchanged with other sensors that use the same board and connectors.}
+		\end{itemize}
+		The other components, LEDs and button, are used as I/O for interacting with the user.\\
+		In \ref{improvements} I explain how the project can be improved both in hardware and software.
+		\begin{figure}[htbp]
+			\centerline{\includegraphics[width=8cm]{fig1.png}}
+			\caption{Example of a figure caption.}
+			\label{schematics}
+		\end{figure}
+		In Fig.~\ref{schematics} there is no indication of a power supply since for this prototype version it has been powered using an external battery with a standard output of 5V and 1A.
+	
+	\subsection{The Arduino software}
+	
+		The reasons behind the choice of using Arduino's programming language instead of micropython \cite{micropyhton} because of the large community behind and interoperability with other boards.
+		The main functions in the Arduino programming language are ``\textit{void setup()[]}'' and ``\textit{void loop()[]}''.
+		The first one runs once at the boot of the device to initialize and set the initial values while the second one does precisely what its name suggests, and loops consecutively, allowing the program to change and respond.
+		The main file that contains these functions and that board executes is ArduECO.ino.
+		In here the setup function contains the instructions in order to correctly initialize the serial communication with the GPS module, create the files in the sd card, initialize the pinouts, gathering the certificates for communicating with its cloud component and creating a random id for identifying the ride.
+		
+		An important part of the configuration of the device is the file parametets.json
+		\begin{lstlisting}[language=json,firstnumber=1]
+    {
+	  "ssid" : "",
+	  "password" : "",
+	  "in_topic" : "",
+	  "out_topic" : "",
+	  "endpoint" : ""
+    }
+		\end{lstlisting}
+		If this file is not present in the sd card at boot-time the device will not end the boot sequence returning an error and rebooting after 10 seconds.
+		Here we set the network ssid and password it is supposed to connect to, the topics for communicating with the mqtt server and its endpoint.
+		In the loop function the board acquires a reading of its surrundings every 5 seconds by first detecting if the GPS has a fix (which can be seen on the board when the led blinks blue) and by reading the MQ sensor.
+		Each read is then appended on two separate files in json format: cache\_log.txt and perm\_log.txt. The firts one is created each time the board boots and it regards each single session while the second one contains the information of all the rides.
+		
+		\begin{lstlisting}[language=json,firstnumber=1]		
+    {
+	  "id":"127",
+	  "air":"18.22",
+	  "lt":"45.39641",
+	  "lg":"11.88527",
+	  "dt":"50320.12173900",
+	  "tpc":"ardueco_proto_01_OUT"
+    }
+		\end{lstlisting}	
+		The two leds that are attached to the board are used not only to communicate when the board has finished the setup sequence or in case of errors but for indicating wheter the ssid specified in the params file is in range and whether the board is transmitting data or not.
+		When the button is pressed the board searches the list of networks in range for the specified one and, if present, it connects to it and establishes communication with the MQTT server specified by sending it a message with the number of reads that will be sent.
+		Each row of the cache file is then sent to the server and at the end of this sequence the cache file is deleted and created again awaiting new reads.
+		The other files that implement this project contain specific functions for either setting up the device or connecting the the server.
+		All of them can be found in the github repo associated with this project.
+		
+	\subsection{The cloud}
+	
+		The cloud part of this project is divided between AWS (Amazon Web Services) and Altervista.
+		From AWS the services that are used are IoT and lambda which are easy to set up and are highly interconnectable with multiple architectures.
+		At first when the button on the ArduECO is pressed the message is sent to an MQTT server in AWS IoT.
+		To connect to this server the devices need to use certificates downloaded and buned into the devices memory when the code is sent in it using the arduino IDE.
+		The MQTT (Message Queuing Telemetry Transport) server designed as a lightweight messaging protocol that uses publish/subscribe operations to exchange data between clients and the server So, it’s easy to implement in software and fast in data transmission (https://1sheeld.com/mqtt-protocol/)
+		The MQTT server in the AWS IoT console is then connected to a serverless lambda function, triggered each time a new message arrives from the ardueco.
+		This python function receives in input the message and sends it to a php file on the webserver that inserts it in the database, hosted on the free website hosting altervista.org under the url ardueco.altervista.org.
+		
+		The webpage of the website displays the routes that are stored and each marker indicates a reading.
 
-The arduino programming language is composed by a setup function and a loop function
-in the setup i control 
-
-in the loop i check
-
-\subsection{The cloud}
-% \subsection{Abbreviations and Acronyms}\label{AA}
-Use of MQTT server 
-
-snippet del json che arriva al server mqtt
-
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-    "id": "318",
-    "air": "10.77",
-    "lt": "45.39658",
-    "lg": "11.88528",
-    "dt": "260220.12283200",
-    "tpc": "cocco"
-}
-\end{lstlisting}
-
-\subsection{Possible total cost}
-
-	most of these parts are open source and can be found sold on 
+		\begin{figure}[htbp]
+			\centerline{\includegraphics[width=8cm]{fig2.png}}
+			\caption{Example of a figure caption.}
+			\label{fig}
+		\end{figure}
+	
+		In the improbements section i'll explain some modifications that could improve the system
+	
+	\subsection{Hardware cost}
+		Because most of these parts are open source they can be found sold on various websites from many vendors.
+		Here are some examples of the prices taken from the site aliexpess at the time of writing.
+		\begin{itemize}
+			\item NodeMCU \footnote{\url{https://it.aliexpress.com/item/32879925927.html}}: $ \sim $ 2\euro
+			\item MicroSD car reader \footnote{\url{https://it.aliexpress.com/item/32572793362.html}}: $ \sim $ 0.50\euro
+			\item GPS sensor \footnote{\url{https://it.aliexpress.com/item/32836015224.html}}: $ \sim $ 3.5\euro
+			\item MQ gas sensor \footnote{\url{https://it.aliexpress.com/item/4000575957425.html}}: $ \sim $ 1\euro
+		\end{itemize}
+		In total the main components $\sim$ 7\euro, considering the shipping and the cost of the other components (cables, leds, button, sd card) it can amount to less than 15\euro.
+		Keep in mind that these prices are valid for a single piece and that in case of bulk purchase it would be much lower.
 	
 \section{Results and data analysis}\label{AA}
 	\subsection{Test scenarios}
@@ -186,13 +234,10 @@ snippet del json che arriva al server mqtt
 			% \subsection{Abbreviations and Acronyms}\label{AA}
 			State of the art
 	
-	\begin{figure}[htbp]
-		\centerline{\includegraphics[width=8cm]{fig2.png}}
-		\caption{Example of a figure caption.}
-		\label{fig}
-	\end{figure}
+	It make detection by method of cycle high and low temperature, and detect CO when low temperature \cite{mq7}
 
-\section{Future improvements}
+
+\section{Future improvements}\label{improvements}
 
 	In this section 
 	
@@ -205,6 +250,11 @@ snippet del json che arriva al server mqtt
 		that converts an analog voltage on a pin to a digital number. By converting from the analog world to the digital world, we can begin to use electronics to interface to the analog world around us.\cite{adc}
 	
 		In case we would want to use another transmission medium instead of wifi we could think about switching boards and use an arduino leonardo or an arduino uno or whatever iteration possible
+		
+		5gh board
+		
+		Given the small dimensions of the components, this project could be easily fitted inside of a custom made box.
+		A solution could be to 3D print one and designing it based on the and considering that the air sensor should remain outside of the plastic and that the whole project could be exposed to high levels of humidity (in the winter season e.g.).
 	
 	\subsection{Software improvements}
 	
@@ -368,13 +418,13 @@ This paper describes the implementation of a wireless IoT system capable to gath
 %\{A[m(1)]\}'', not just ``A/m''. Do not label axes with a ratio of 
 %quantities and units. For example, write ``Temperature (K)'', not 
 %``Temperature/K''.
-
-\section*{Acknowledgment}
-
-The preferred spelling of the word ``acknowledgment'' in America is without 
-an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
-G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
-acknowledgments in the unnumbered footnote on the first page.
+%
+%\section*{Acknowledgment}
+%
+%The preferred spelling of the word ``acknowledgment'' in America is without 
+%an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
+%G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
+%acknowledgments in the unnumbered footnote on the first page.
 
 %\section*{References}
 %
