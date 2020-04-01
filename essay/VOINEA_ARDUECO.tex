@@ -83,7 +83,6 @@ Arduino, embedded, air-quality
 \end{IEEEkeywords}
 
 \section{Introduction}\label{intro}
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OK
 	More and more people around the world have started to understand the importance of air quality and how much having clean and pollution-free air can influence our lives, both on the small and large scale. 
 	To have clean air, all of us have to do something to avoid polluting it. \\
 	The Government of Luxembourg has set a good example becoming the first country to offer nationwide free public transport to the citizens\cite{luxemburg}.\\
@@ -93,7 +92,7 @@ Arduino, embedded, air-quality
 	All this falls under the \textit{IoT} (Internet of Things) paradigm, which has become a well-described market with new ideas and business opportunities being presented every day.\\
 	Among the data collected by these companies, none is about air pollution.\\
 	In this article, I describe \textit{ArduECO}, a wireless device based on an Arduino-like board capable of gathering data from previously named vehicles and sending it to the cloud, to be processed and displayed.\\
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%TODO completare
 	This paper is organized as follows:
 	\begin{itemize}
 		\item Section 2: Background and description of the problem
@@ -146,23 +145,22 @@ come mai la scelta di implementarlo in quel modo
 			\item \hlcyan{\textit{MQ sensor}: the MQ sensor used in this project is MQ7 but it can easily be exchanged with other sensors that use the same board and connectors.}
 		\end{itemize}
 		The other components, LEDs and button, are used as I/O for interacting with the user.\\
-		In \ref{improvements} I explain how the project can be improved both in hardware and software.
+		In Section \ref{improvements} I explain how the project can be improved both in hardware and software.
 		\begin{figure}[htbp]
 			\centerline{\includegraphics[width=8cm]{fig1.png}}
-			\caption{Example of a figure caption.}
+			\caption{ArduECO schematics}
 			\label{schematics}
 		\end{figure}
 		In Fig.~\ref{schematics} there is no indication of a power supply since for this prototype version it has been powered using an external battery with a standard output of 5V and 1A.
 	
 	\subsection{The Arduino software}
 	
-		The reasons behind the choice of using Arduino's programming language instead of micropython \cite{micropyhton} because of the large community behind and interoperability with other boards.
-		The main functions in the Arduino programming language are ``\textit{void setup()[]}'' and ``\textit{void loop()[]}''.
-		The first one runs once at the boot of the device to initialize and set the initial values while the second one does precisely what its name suggests, and loops consecutively, allowing the program to change and respond.
-		The main file that contains these functions and that board executes is ArduECO.ino.
-		In here the setup function contains the instructions in order to correctly initialize the serial communication with the GPS module, create the files in the sd card, initialize the pinouts, gathering the certificates for communicating with its cloud component and creating a random id for identifying the ride.
-		
-		An important part of the configuration of the device is the file parametets.json
+		% Trasformare in forma passiva
+		\hlcyan{For ArduECO I chose to use Arduino's programming language instead of MicroPython}\cite{micropyhton} because of the large community supporting it and the vast interoperability with other boards.\\
+		The main functions in the Arduino programming language are ``\textit{void setup()[]}'' and ``\textit{void loop()[]}'': the first one runs a single time when the device boots initializing and setting the initial values while the second one loops consecutively, allowing the program to change and respond.
+		ArduECO.ino is the main file executed by the NodeMCU and contains the previously described functions.\\
+		In ArduECO's software, the setup function contains the instructions to correctly initialize serial communication with the GPS module, create the files in the SD card, initialize the pin-outs, gather the certificates for communicating with the cloud and create a random id for identifying the ride, since each time the device boots is considered as a single ride.\\
+		An important part of the configuration of ArduECO is the file \textit{params.json}:
 		\begin{lstlisting}[language=json,firstnumber=1]
     {
 	  "ssid" : "",
@@ -172,11 +170,12 @@ come mai la scelta di implementarlo in quel modo
 	  "endpoint" : ""
     }
 		\end{lstlisting}
-		If this file is not present in the sd card at boot-time the device will not end the boot sequence returning an error and rebooting after 10 seconds.
-		Here we set the network ssid and password it is supposed to connect to, the topics for communicating with the mqtt server and its endpoint.
-		In the loop function the board acquires a reading of its surrundings every 5 seconds by first detecting if the GPS has a fix (which can be seen on the board when the led blinks blue) and by reading the MQ sensor.
-		Each read is then appended on two separate files in json format: cache\_log.txt and perm\_log.txt. The firts one is created each time the board boots and it regards each single session while the second one contains the information of all the rides.
-		
+		If this file is not present in the SD card at boot-time and correctly formatted, ArduECO will not end the boot sequence, returning an error and rebooting after 10 seconds.\\
+		This file contains configurations such network SSID and password, topics for communicating with the MQTT server and its endpoint (network address).\\
+		The loop function contains the instructions that tell the board to acquires a reading of its surroundings every 5 seconds by first detecting if a GPS fix os present and by reading the value from the analog pin connected to the MQ sensor.
+		Each read is then appended on two separate text files (\textit{cache\_log.txt} and \textit{perm\_log.txt}) in JSON format. 
+		\textit{cache\_log.txt} is created each time ArduECO boots is related to a single session while \textit{perm\_log.txt} contains reads about each ride taken.\\
+		Here is an example of a logged loop cycle read:
 		\begin{lstlisting}[language=json,firstnumber=1]		
     {
 	  "id":"127",
@@ -187,43 +186,44 @@ come mai la scelta di implementarlo in quel modo
 	  "tpc":"ardueco_proto_01_OUT"
     }
 		\end{lstlisting}	
-		The two leds that are attached to the board are used not only to communicate when the board has finished the setup sequence or in case of errors but for indicating wheter the ssid specified in the params file is in range and whether the board is transmitting data or not.
-		When the button is pressed the board searches the list of networks in range for the specified one and, if present, it connects to it and establishes communication with the MQTT server specified by sending it a message with the number of reads that will be sent.
-		Each row of the cache file is then sent to the server and at the end of this sequence the cache file is deleted and created again awaiting new reads.
+		The external LEDs are used to communicate when the setup sequence has finished correctly with errors as well as for indicating whether the SSID specified in the \textit{params.json} file is in range and if ArduECO is transmitting data.\\
+		When the button is pressed, ArduECO searches the list of networks in range for the specified one and, if present, connects to it.
+		Afterwards it establishes communication with the MQTT server specified by the endpoint, and sending it a message with the number of messages that will be sent.\\
+		Each row of the cache file is then transmitted to the server.\\
+		At the end of this sequence the cache file is deleted and created again awaiting new reads.\\
 		The other files that implement this project contain specific functions for either setting up the device or connecting the the server.
-		All of them can be found in the github repo associated with this project.
 		
 	\subsection{The cloud}
 	
-		The cloud part of this project is divided between AWS (Amazon Web Services) and Altervista.
-		From AWS the services that are used are IoT and lambda which are easy to set up and are highly interconnectable with multiple architectures.
-		At first when the button on the ArduECO is pressed the message is sent to an MQTT server in AWS IoT.
-		To connect to this server the devices need to use certificates downloaded and buned into the devices memory when the code is sent in it using the arduino IDE.
-		The MQTT (Message Queuing Telemetry Transport) server designed as a lightweight messaging protocol that uses publish/subscribe operations to exchange data between clients and the server So, it’s easy to implement in software and fast in data transmission (https://1sheeld.com/mqtt-protocol/)
-		The MQTT server in the AWS IoT console is then connected to a serverless lambda function, triggered each time a new message arrives from the ardueco.
-		This python function receives in input the message and sends it to a php file on the webserver that inserts it in the database, hosted on the free website hosting altervista.org under the url ardueco.altervista.org.
-		
-		The webpage of the website displays the routes that are stored and each marker indicates a reading.
-
-		\begin{figure}[htbp]
+		When the button is pressed, ArduECO connects to the access point with the SSID specified in the \textit{params.json} file and sends the contents of \textit{cache\_log.txt} to the cloud, specifically to AWS (Amazon Web Services).
+		\textit{IoT core} and \textit{Lambda} are the services that are used for this project.\\
+		ArduECO sends data to the MQTT server in IoT core specified as \textit{endpoint} in \textit{params.js}.
+		It connects to this server using certificates created in the IoT core console and that are loaded in ArduECO's memory, this means that they are uploaded via the Arduino IDE.\\
+		The MQTT (Message Queuing Telemetry Transport) server is designed as a lightweight messaging protocol that uses publish/subscribe operations to exchange data between clients and server, fast in data transmission\cite{mqtt}.\\
+		This service in IoT core is connected to a serveress Lambda function written in Python, triggered each time a new messages arrives from ArduECO, which receives the JSON message as a parameter and calls a PHP page on \href{ardueco.altervista.org}{ardueco.altervista.org}, where the front end of the service is hosted.
+		Altervista is a free website hosting platform with PHP and MySQL database.
+		After being saved in the MySQL database in Altervista is then displayed on the homepage using Google Maps' APIs.
+		\begin{figure}[htbp] %TODO cambiare immagine, aggiungere marker in DB
 			\centerline{\includegraphics[width=8cm]{fig2.png}}
-			\caption{Example of a figure caption.}
-			\label{fig}
+			\caption{Map with markers and reads from \href{ardueco.altervista.org}{ArduECO}.}
+			\label{altervista}
 		\end{figure}
 	
-		In the improbements section i'll explain some modifications that could improve the system
-	
+		Each marker on the map represents a reading and, if clicked on, shows the value read by ArduECO's sensor.\\
+		Markers are connected with different colors indicating the ride they belong to.
+		
 	\subsection{Hardware cost}
-		Because most of these parts are open source they can be found sold on various websites from many vendors.
-		Here are some examples of the prices taken from the site aliexpess at the time of writing.
+	
+		Because the components used for this project are open-source, they can be found sold on various websites from many vendors.
+		Here are some examples of prices taken from the Chinese e-commerce AliExpress\cite{aliexpress} at the time of writing.
 		\begin{itemize}
 			\item NodeMCU \footnote{\url{https://it.aliexpress.com/item/32879925927.html}}: $ \sim $ 2\euro
 			\item MicroSD car reader \footnote{\url{https://it.aliexpress.com/item/32572793362.html}}: $ \sim $ 0.50\euro
 			\item GPS sensor \footnote{\url{https://it.aliexpress.com/item/32836015224.html}}: $ \sim $ 3.5\euro
 			\item MQ gas sensor \footnote{\url{https://it.aliexpress.com/item/4000575957425.html}}: $ \sim $ 1\euro
 		\end{itemize}
-		In total the main components $\sim$ 7\euro, considering the shipping and the cost of the other components (cables, leds, button, sd card) it can amount to less than 15\euro.
-		Keep in mind that these prices are valid for a single piece and that in case of bulk purchase it would be much lower.
+		The total cost of these items amounts to $\sim$ 7\euro, considering shipping and costs of remaining components (cables, LEDs, button, SD card), it can arrive to less than 15\euro.\\
+		Note that the indicated prices refer to single pieces and in case of bulk purchases (at least 5 or 10 of each piece) the total cost would be much lower.
 	
 \section{Results and data analysis}\label{AA}
 	\subsection{Test scenarios}
@@ -238,30 +238,29 @@ come mai la scelta di implementarlo in quel modo
 
 
 \section{Future improvements}\label{improvements}
-
-	In this section 
+	Since ArduECO is one of many possible implementations that this hardware and software can create, there are various improvements which could bring to a better and more stable device.
 	
 	\subsection{Hardware improvements}
-	
-		There are various improvements that could be made to the circuit and the hardware used, for example in this project using one single air quality sensor could be seen as a drawback since we could take advantage of the cheapness of these sensors
-		
-		It is possible to add multiple sensors by expanding the analog inputs using an \textit{Analog to Digital Converter} (ADC)
-		
-		that converts an analog voltage on a pin to a digital number. By converting from the analog world to the digital world, we can begin to use electronics to interface to the analog world around us.\cite{adc}
-	
-		In case we would want to use another transmission medium instead of wifi we could think about switching boards and use an arduino leonardo or an arduino uno or whatever iteration possible
-		
-		5gh board
-		
+		Many improvements can be made on the hardware: for example, the circuit described in Section \ref{circuit} has a single air sensor due to the limitation of the NodeMCU and ESP8266 chip that have only one analog input pin.\\
+		By connecting the board to an \textit{ADC} (Analog to Digital Converter) it becomes possible to add multiple sensors expanding the analog inputs.
+		ADCs convert an analog voltage on a pin to a digital number\cite{adc}.\\
+		In order to upgrade the transmission method and use mobile data instead of WiFi (which is limited to 2.4GHz on the NodeMCU) it's possible to switch the board to an Arduino Leonardo or an Arduino Uno.\\
+		Modules capable to add mobile connectivity can be found on sites like AliExpress\footnote{\href{https://it.aliexpress.com/item/32963853961.html}{https://it.aliexpress.com/item/32963853961.html}} and does not brig much additional overall cost (in this case $ \sim $ 2\euro).\\
 		Given the small dimensions of the components, this project could be easily fitted inside of a custom made box.
-		A solution could be to 3D print one and designing it based on the and considering that the air sensor should remain outside of the plastic and that the whole project could be exposed to high levels of humidity (in the winter season e.g.).
+		A solution could be to design and 3D print a custom plastic case in which fit the whole device, considering that the air sensor should remain outside of the case and the whole project could be exposed to high levels of humidity (for example in the winter season).\\
+		Power is one important issue for IoT devices.
+		The prototype described in this essay has been powered using an external battery, but it can be coupled with other energy sources like a dynamo, so that it can be powered by movement of the wheel (in case it's installed on a bike).
 	
 	\subsection{Software improvements}
-	
-		Supposed we use the same architecture we can improve the software such that instead of looking for the ap and snding the data only when the button is pressef it could be set such that 
+		The software can be improved in many ways as well.
+		For example a control could be added to check if every message has correctly arrived at the IoT server and, in case of a timeout or an eventual error, the message could be sent again.
 		
 	\subsection{Cloud services improvements}
-	
+		The cloud technologies can be improved too.
+		AWS' IoT core could be configured in order to have more MQTT servers based on the devices divided by each city or zone in which the ArduECOs are used.\\
+		Another important change would be using an AWS EC2 instance to host the website instead of Altervista.
+		This introduces of the instance and 
+		
 		In the development of this project I was forced by the we server host altervista.org to connect to the database only from within
 		
 		connections within its domain
