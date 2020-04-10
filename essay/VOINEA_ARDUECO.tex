@@ -55,7 +55,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{ArduECO: cheap air quality control for cities}
+\title{ArduECO: Arduino based air quality control for shared transportation methods in cities}
 
 \author{\IEEEauthorblockN{Voinea Stefan Ciprian}
 \IEEEauthorblockA{\textit{University of Padova, Italy} \\
@@ -72,64 +72,58 @@
 
 \maketitle
 
-\begin{abstract}
-	\lipsum[1]
-\end{abstract}
-
-\vspace{.2cm}
-
-\begin{IEEEkeywords}
-Arduino, embedded, air-quality
-\end{IEEEkeywords}
+%\begin{abstract}
+%	\lipsum[1]
+%\end{abstract}
+%
+%\vspace{.2cm}
+%
+%\begin{IEEEkeywords}
+%Arduino, embedded, air-quality
+%\end{IEEEkeywords}
 
 \section{Introduction}\label{intro}
 	More and more people around the world have started to understand the importance of air quality and how much having clean and pollution-free air can influence our lives, both on the small and large scale. 
 	To have clean air, all of us have to do something to avoid polluting it. \\
-	The Government of Luxembourg has set a good example becoming the first country to offer nationwide free public transport to the citizens\cite{luxemburg}.\\
-	For short commutes, vehicles like the classic bike\cite{bike}, the infamous skateboard and the scooter have started to arise and conquer cities, either in their battery-powered or old-school human-powered.\\
+	The Government of Luxembourg has set a good example, becoming the first country to offer nationwide free public transport to citizens\cite{luxemburg}.\\
+	For short commutes, vehicles like the classic bike\cite{bike}, the infamous skateboard and the scooter have started to arise and conquer cities, either in their battery-powered or old-school human-powered form.\\
 	Since not everyone necessarily owns one of these green methods of transportation, companies like \textit{Mobike}\cite{mobike} and \textit{MiMoto}\cite{mimoto} have seen the opportunity to enter the market of shared transportation, proposing a \textit{pay-per-use} solution for bikes, electric scooters and other similar vehicles.	
-	Each company has its own application, network infrastructure and smart devices aboard their vehicles, gathering data like GPS (Global Positioning System) position, time spent by the user, parking spot, etc. to send it in the cloud and compute information like cost of the ride and charging it to the user.\\
+	Each company has its own phone application, network infrastructure and smart devices aboard their vehicles, gathering data like GPS (Global Positioning System) position, time spent by the user, parking spot, etc. to send it in the cloud and compute information like cost of the ride and charging it to the customer.\\
 	All this falls under the \textit{IoT} (Internet of Things) paradigm, which has become a well-described market with new ideas and business opportunities being presented every day.\\
 	Among the data collected by these companies, none is about air pollution.\\
-	In this article, I describe \textit{ArduECO}, a wireless device based on an Arduino-like board capable of gathering data from previously named vehicles and sending it to the cloud, to be processed and displayed.\\
-	%TODO completare
+	This article describes \textit{ArduECO}, a wireless device based on an Arduino-like board capable of gathering data about air quality (and more) from previously named vehicles and sending it to the cloud, to be processed and displayed.\\
 	This paper is organized as follows:
 	\begin{itemize}
-		\item Section 2: Background and description of the problem
-		\item Section 3: State of the art on smart devices that allow tracking pollution
-		\item Section 4: implementation of the proposed solution
-		\item Section 5: Conclusions
+		\item Section \ref{bck}: description of the problem that this essay aims to solve and state of the art on smart devices that allow tracking pollution;
+		\item Section \ref{improvements}: improvements to this project;
+%		\item Section \ref{data}: data analysis;
+		\item Section \ref{conclusions}: conclusions.
 	\end{itemize}
 
-\section{Background problem}
-% \subsection{Maintaining the Integrity of the Specifications}
-Background
-
-spiegare quali sono le particelle di inquinamento nell'aria
-
-spiegare quali sono i sensori presenti sul mercato che possono rilevarle
-
-tabella con sensori mq e differenze
-
-come mai la scelta di implementarlo in quel modo
-
-\section{State of the art}
-	% \subsection{Abbreviations and Acronyms}\label{AA}
-	State of the art non solamente della letteratura ma anche di quello che viene offerto sul mercato
-	
+\section{Background problem and state of the art}\label{bck}
+	Tracking air quality is an important task usually tied to weather agencies involving trucks seen parked or going around the city, collecting data like \textit{PM 2.5} and \textit{PM 10}.\\
+	\textit{PM} stands for \textit{Particulate Matter} and indicates the term for a mixture of solid particles and liquid droplets found in the air, with diameters around 2.5 or 10 micrometers.
+	Some particles, such as dust, dirt, soot, or smoke, are large or dark enough to be seen with the naked eye, others can only be detected using an electron microscope\cite{particles}.\\
+	In cities like Padova and Milan\cite{milano}, a great percentage of PM production has been cut by decreasing the number of cars that can circulate and introducing more ways of public transportation: for example pay-per-use bike services have seen in the last year a vast amount of users.
+	Fig.~\ref{mobi} is an infographic released by Mobike that shows the amount of CO2 emissions in Kg spared during 2019 by using their shared bikes.
 	\begin{figure}[htbp]
-		\centerline{\includegraphics[width=8cm]{fig3.jpg}}
-		\caption{Example of a figure caption.\cite{bibid}}
-		\label{fig}
-	\end{figure}
-
-
-% DARE DEFINIZIONE DI OPEN SOURCE DA QUALCHE PARTE?
+		\centerline{\includegraphics[width=8.8cm]{fig3.jpg}}
+		\caption{Example of a figure caption.\cite{mobike_pd}}
+		\label{mobi}
+	\end{figure}\\
+	Since Mobike's launch in Padova in 2019, it's users have biked over 330.000 Km across the city and reduced CO{\footnotesize 2} emissions by over 60 tons.\\
+	CO (Carbon Monoxide) and CO{\footnotesize 2} (Carbon Dioxide) are gasses that become important pollutants when associated with cars, planes, power plants, and other human activities that involve the burning of fossil fuels such as gasoline and natural gas\cite{co2}.\\
+	There have been various attempts to create portable gas detectors, both for academic and marketing purposes.
+	In 2014 Cambridge University proposed hand-held devices with electro-chemical sensors inside to collect and store data or send it in real time to a central computer for analysis\cite{cambridge}.
+	Researches like this generally tend to remain limited in the academic field.
+	\textit{Flow}\cite{flow}, on the other hand, is a device with similar capabilities of the one from Cambridge, only that it's proprietary and sold on the market to consumers interested in their personal well-being.\\
+	These devices are usually implemented using \textit{low-cost} sensors like the ones in MQ-series, made of a heating element an electro-chemical sensor, which will react only when it reaches certain temperatures.\\
+	ArduECO has been designed using the \textit{MQ-7} sensor, sensible for \textit{Carbon Monoxide}.
+	
 \section{Proposed solution}\label{solution}
 	
 	ArduECO is a wireless IoT device that represents one of the possible combinations of open source hardware and software.
-	% DIRE COSA EFFETTIVAMENTE VIENE CATTURATO, COSA CHE DEVE ESSERE DISCUSSA NEL PARAGRAFO PRECEDENTE
-	\hlcyan{This wireless device is able to detect substances in the air and send the data in the cloud over Wi-Fi, and combined with data from other similar devices detect the level of pollution in the air.}\\
+	This wireless device is able to detect the amount of CO air and send this data in the cloud over Wi-Fi, and, combined with data from other similar devices, detect the level of pollution in the air.\\
 	The schematics for this project have been designed using Fritzing, a CAD (Computer-Aided Design) software for the design of electronics hardware\cite{fritzing} and can be seen in Fig.~\ref{schematics}.
 	Both code and schematics for this device are available on the GitHub repository ``ArduECO''\cite{ardueco_git}.\\
 	Schematics for other components can be easily found online from various sources and vendors: here, for example are the schematics for the MQ7 sensor from SparkFun\cite{spark_mq} and the NodeMCU\cite{node_scheme}.
@@ -142,12 +136,12 @@ come mai la scelta di implementarlo in quel modo
 			\item \textit{MicroSD card reader}: this allow for collecting and keeping data cached for the current ride and permanently on a removable memory card;
 			\item \textit{GPS sensor}: this allows for localizing the device, it has an onboard LED that blinks when it has established communication with the satellites;
 			% AGGIUNGERE COSA RACCOGLIE ESATTAMENTE QUESTO SENSORE
-			\item \hlcyan{\textit{MQ sensor}: the MQ sensor used in this project is MQ7 but it can easily be exchanged with other sensors that use the same board and connectors.}
+			\item \textit{MQ sensor}: the MQ-7can easily be exchanged with other sensors that use the same board and connectors.
 		\end{itemize}
 		The other components, LEDs and button, are used as I/O for interacting with the user.\\
 		In Section \ref{improvements} I explain how the project can be improved both in hardware and software.
 		\begin{figure}[htbp]
-			\centerline{\includegraphics[width=8cm]{fig1.png}}
+			\centerline{\includegraphics[width=8.8cm]{fig1.png}}
 			\caption{ArduECO schematics}
 			\label{schematics}
 		\end{figure}
@@ -155,8 +149,7 @@ come mai la scelta di implementarlo in quel modo
 	
 	\subsection{The Arduino software}
 	
-		% Trasformare in forma passiva
-		\hlcyan{For ArduECO I chose to use Arduino's programming language instead of MicroPython}\cite{micropyhton} because of the large community supporting it and the vast interoperability with other boards.\\
+		For ArduECO I chose to use Arduino's programming language instead of \cite{micropyhton} because of the large community supporting it and the vast interoperability with other boards.\\
 		The main functions in the Arduino programming language are ``\textit{void setup()[]}'' and ``\textit{void loop()[]}'': the first one runs a single time when the device boots initializing and setting the initial values while the second one loops consecutively, allowing the program to change and respond.
 		ArduECO.ino is the main file executed by the NodeMCU and contains the previously described functions.\\
 		In ArduECO's software, the setup function contains the instructions to correctly initialize serial communication with the GPS module, create the files in the SD card, initialize the pin-outs, gather the certificates for communicating with the cloud and create a random id for identifying the ride, since each time the device boots is considered as a single ride.\\
@@ -204,7 +197,7 @@ come mai la scelta di implementarlo in quel modo
 		Altervista is a free website hosting platform with PHP and MySQL database.
 		After being saved in the MySQL database in Altervista is then displayed on the homepage using Google Maps' APIs.
 		\begin{figure}[htbp] %TODO cambiare immagine, aggiungere marker in DB
-			\centerline{\includegraphics[width=8cm]{fig2.png}}
+			\centerline{\includegraphics[width=8.8cm]{fig2.png}}
 			\caption{Map with markers and reads from \href{ardueco.altervista.org}{ArduECO}.}
 			\label{altervista}
 		\end{figure}
@@ -225,16 +218,17 @@ come mai la scelta di implementarlo in quel modo
 		The total cost of these items amounts to $\sim$ 7\euro, considering shipping and costs of remaining components (cables, LEDs, button, SD card), it can arrive to less than 15\euro.\\
 		Note that the indicated prices refer to single pieces and in case of bulk purchases (at least 5 or 10 of each piece) the total cost would be much lower.
 	
-\section{Results and data analysis}\label{AA}
-	\subsection{Test scenarios}
-
-		\subsubsection{Prototype test}
-
-		\subsubsection{Real life implementation}
-			% \subsection{Abbreviations and Acronyms}\label{AA}
-			State of the art
-	
-	It make detection by method of cycle high and low temperature, and detect CO when low temperature \cite{mq7}
+%\section{Results and data analysis}\label{data}
+%	\hlcyan{DA FARE PER INTERO}
+%	\subsection{Test scenarios}
+%
+%		\subsubsection{Prototype test}
+%
+%		\subsubsection{Real life implementation}
+%			% \subsection{Abbreviations and Acronyms}\label{AA}
+%			State of the art
+%	
+%	It make detection by method of cycle high and low temperature, and detect CO when low temperature \cite{mq7}
 
 
 \section{Future improvements}\label{improvements}
@@ -251,26 +245,27 @@ come mai la scelta di implementarlo in quel modo
 		Power is one important issue for IoT devices.
 		The prototype described in this essay has been powered using an external battery, but it can be coupled with other energy sources like a dynamo, so that it can be powered by movement of the wheel (in case it's installed on a bike).
 	
-	\subsection{Software improvements}
+	\subsection{Software improvements}	
 		The software can be improved in many ways as well.
-		For example a control could be added to check if every message has correctly arrived at the IoT server and, in case of a timeout or an eventual error, the message could be sent again.
+		For example a control could be added to check if every message has correctly arrived at the IoT server and, in case of a timeout or an eventual error, the message could be sent again.\\
+		In this project various libraries have been used for the Arduino sensors, a great improvement would be to better adapt these libraries for ArduECO, especially the MQ-7 library.\\
+		Since this is an IoT device and battery is an essential need, adding a deep sleep mode could improve the performance of ArduECO.
 		
 	\subsection{Cloud services improvements}
 		The cloud technologies can be improved too.
-		AWS' IoT core could be configured in order to have more MQTT servers based on the devices divided by each city or zone in which the ArduECOs are used.\\
-		Another important change would be using an AWS EC2 instance to host the website instead of Altervista.
-		This introduces of the instance and 
+		AWS' IoT core could be configured to have more MQTT servers based on the groups of devices divided by each city or zone in which they're used.\\
+		Another important change would be using an AWS EC2 instance to host the website instead of Altervista.\\
+		Thinking about an architecture that could easily scale horizontally, and supporting more devices connected at once, the database can be switched from MySQL to Redis,  a NoSQL database that provides real-time and high-efficiency services for data storage, increasing the I/O speed by storing all key-value data in the memory\cite{redis}.\\
+		These, thought, would introduce an expense for the AWS services, but offering high efficiency and modularity.\\
+		Switching to these technologies would allow for a better Lambda function, directly connected to the database for example, as well.
 		
-		In the development of this project I was forced by the we server host altervista.org to connect to the database only from within
-		
-		connections within its domain
-		
-		i was not able to allow the lambda to insert the data directly in the database, so I was forced to create an intermediate webpage to insert that data
-		
-		for this reason a possible improvement could be 
+\section{Conclusions and future work}\label{conclusions}
 
-\section{Conclusions and future work}
-This paper describes the implementation of a wireless IoT system capable to gather data from air and send it to the cloud in order to be analyzed and displayed.
+	\hlcyan{TODO}
+
+%	This paper describes the implementation of a wireless IoT system capable to gather data from air and send it to the cloud in order to be analyzed and displayed.
+%
+%	Represents a proof of concept of how these devices can be integrated with existing techn1ology used in bikes 
 
 %\subsection{Units}
 %\begin{itemize}
