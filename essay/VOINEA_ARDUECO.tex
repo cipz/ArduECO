@@ -95,6 +95,7 @@
 	This paper is organized as follows:
 	\begin{itemize}
 		\item Section \ref{bck}: description of the problem that this essay aims to solve and state of the art on smart devices that allow tracking pollution;
+		\item Section \ref{solution}: how ArduECO has been implemented;
 		\item Section \ref{improvements}: improvements to this project;
 %		\item Section \ref{data}: data analysis;
 		\item Section \ref{conclusions}: conclusions.
@@ -111,11 +112,11 @@
 		\caption{Example of a figure caption.\cite{mobike_pd}}
 		\label{mobi}
 	\end{figure}\\
-	Since Mobike's launch in Padova in 2019, it's users have biked over 330.000 Km across the city and reduced CO{\footnotesize 2} emissions by over 60 tons.\\
+	Since Mobike's launch in Padova in 2019, its users have biked over 330.000 Km across the city and reduced CO{\footnotesize 2} emissions by over 60 tons.\\
 	CO (Carbon Monoxide) and CO{\footnotesize 2} (Carbon Dioxide) are gasses that become important pollutants when associated with cars, planes, power plants, and other human activities that involve the burning of fossil fuels such as gasoline and natural gas\cite{co2}.\\
 	There have been various attempts to create portable gas detectors, both for academic and marketing purposes.
 	In 2014 Cambridge University proposed hand-held devices with electro-chemical sensors inside to collect and store data or send it in real time to a central computer for analysis\cite{cambridge}.
-	Researches like this generally tend to remain limited in the academic field.
+	Researches like these generally tend to remain limited in the academic field.
 	\textit{Flow}\cite{flow}, on the other hand, is a device with similar capabilities of the one from Cambridge, only that it's proprietary and sold on the market to consumers interested in their personal well-being.\\
 	These devices are usually implemented using \textit{low-cost} sensors like the ones in MQ-series, made of a heating element an electro-chemical sensor, which will react only when it reaches certain temperatures.\\
 	ArduECO has been designed using the \textit{MQ-7} sensor, sensible for \textit{Carbon Monoxide}.
@@ -123,7 +124,7 @@
 \section{Proposed solution}\label{solution}
 	
 	ArduECO is a wireless IoT device that represents one of the possible combinations of open source hardware and software.
-	This wireless device is able to detect the amount of CO air and send this data in the cloud over Wi-Fi, and, combined with data from other similar devices, detect the level of pollution in the air.\\
+	This wireless device is able to detect the amount of CO air and send this value in the cloud over Wi-Fi, and, combined with data from other similar devices, detect the level of pollution in the air.\\
 	The schematics for this project have been designed using Fritzing, a CAD (Computer-Aided Design) software for the design of electronics hardware\cite{fritzing} and can be seen in Fig.~\ref{schematics}.
 	Both code and schematics for this device are available on the GitHub repository ``ArduECO''\cite{ardueco_git}.\\
 	Schematics for other components can be easily found online from various sources and vendors: here, for example are the schematics for the MQ7 sensor from SparkFun\cite{spark_mq} and the NodeMCU\cite{node_scheme}.
@@ -133,7 +134,7 @@
 		ArduECO is composed by four main components:
 		\begin{itemize}
 			\item \textit{NodeMCU}: it's the hearts and brains of the device, this board is an open-source development kit based on the ESP8266 chip that allows for prototyping of IoT devices;
-			\item \textit{MicroSD card reader}: this allow for collecting and keeping data cached for the current ride and permanently on a removable memory card;
+			\item \textit{MicroSD card reader}: these allow for collecting and keeping data cached for the current ride and permanently on a removable memory card;
 			\item \textit{GPS sensor}: this allows for localizing the device, it has an onboard LED that blinks when it has established communication with the satellites;
 			% AGGIUNGERE COSA RACCOGLIE ESATTAMENTE QUESTO SENSORE
 			\item \textit{MQ sensor}: the MQ-7can easily be exchanged with other sensors that use the same board and connectors.
@@ -165,7 +166,8 @@
 		\end{lstlisting}
 		If this file is not present in the SD card at boot-time and correctly formatted, ArduECO will not end the boot sequence, returning an error and rebooting after 10 seconds.\\
 		This file contains configurations such network SSID and password, topics for communicating with the MQTT server and its endpoint (network address).\\
-		The loop function contains the instructions that tell the board to acquires a reading of its surroundings every 5 seconds by first detecting if a GPS fix os present and by reading the value from the analog pin connected to the MQ sensor.
+		The loop function contains the instructions that tell the board to acquires a reading of its surroundings every 5 seconds by first detecting if a GPS fix if present and by reading the value from the analog pin connected to the MQ sensor.
+		%TODO AGGIUNGERE FIGURA
 		Each read is then appended on two separate text files (\textit{cache\_log.txt} and \textit{perm\_log.txt}) in JSON format. 
 		\textit{cache\_log.txt} is created each time ArduECO boots is related to a single session while \textit{perm\_log.txt} contains reads about each ride taken.\\
 		Here is an example of a logged loop cycle read:
@@ -240,10 +242,10 @@
 		ADCs convert an analog voltage on a pin to a digital number\cite{adc}.\\
 		In order to upgrade the transmission method and use mobile data instead of WiFi (which is limited to 2.4GHz on the NodeMCU) it's possible to switch the board to an Arduino Leonardo or an Arduino Uno.\\
 		Modules capable to add mobile connectivity can be found on sites like AliExpress\footnote{\href{https://it.aliexpress.com/item/32963853961.html}{https://it.aliexpress.com/item/32963853961.html}} and does not brig much additional overall cost (in this case $ \sim $ 2\euro).\\
-		Given the small dimensions of the components, this project could be easily fitted inside of a custom made box.
-		A solution could be to design and 3D print a custom plastic case in which fit the whole device, considering that the air sensor should remain outside of the case and the whole project could be exposed to high levels of humidity (for example in the winter season).\\
-		Power is one important issue for IoT devices.
-		The prototype described in this essay has been powered using an external battery, but it can be coupled with other energy sources like a dynamo, so that it can be powered by movement of the wheel (in case it's installed on a bike).
+		Given the small size of the components, this project could be easily fitted inside of a custom made box.
+		A solution could be to design and 3D print a custom plastic case in which fit the whole device, considering that the air sensor should remain outside of the case and the whole project could be exposed to high levels of humidity (for example during the winter season).\\
+		Powering is one important issue for IoT devices.
+		The prototype described in this manuscript runs on an external battery, but it can be coupled with other energy sources like a dynamo, so that it can be powered by movement of the wheel (in case it's installed on a bike).
 	
 	\subsection{Software improvements}	
 		The software can be improved in many ways as well.
