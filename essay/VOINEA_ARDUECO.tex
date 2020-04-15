@@ -126,7 +126,10 @@
 	This wireless device is able to detect the amount of CO air and send this value in the cloud over Wi-Fi, and, combined with data from other similar devices, detect the level of pollution in the air.\\
 	The schematics for this project have been designed using Fritzing, a CAD (Computer-Aided Design) software for the design of electronics hardware\cite{fritzing} and can be seen in Fig.~\ref{schematics}.
 	Both code and schematics for this device are available on the GitHub repository ``ArduECO''\cite{ardueco_git}.\\
-	Schematics for other components can be easily found online from various sources and vendors: here, for example are the schematics for the MQ7 sensor from SparkFun\cite{spark_mq} and the NodeMCU\cite{node_scheme}.
+	Schematics for other components can be easily found online from various sources and vendors: here, for example are the schematics for the MQ7 sensor from SparkFun\cite{spark_mq} and the NodeMCU\cite{node_scheme}.\\
+	The goal is to have a device small enough to fit on any of previously mentioned shared transportation methods.
+	ArduECO would represent a possible solution: for example it could fit under baskets of bikes and be powered by dynamos that already power the headlight and other circuitry which allow this transport to be connected with the vendor's cloud (for example Mobike).
+	Given the modularity of ArduECO it's circuit can easily be adapted to fit other cases and forms.
 	
 	\subsection{The circuit}\label{circuit}
 	
@@ -197,7 +200,7 @@
 		This service in IoT core is connected to a serveress Lambda function written in Python, triggered each time a new messages arrives from ArduECO, which receives the JSON message as a parameter and calls a PHP page on \href{ardueco.altervista.org}{ardueco.altervista.org}, where the front end of the service is hosted.
 		Altervista is a free website hosting platform with PHP and MySQL database.
 		After being saved in the MySQL database in Altervista is then displayed on the homepage using Google Maps' APIs.
-		\begin{figure}[htbp] %TODO cambiare immagine, aggiungere marker in DB
+		\begin{figure}[htbp]
 			\centerline{\includegraphics[width=8.8cm]{fig2.png}}
 			\caption{Map with markers and reads from \href{ardueco.altervista.org}{ArduECO}.}
 			\label{altervista}
@@ -262,15 +265,17 @@
 		
 \section{Conclusions and future work}\label{conclusions}
 
-	Air pollution is 
-
-	This essay describes the implementation of a PoC (Proof of Concept) wireless IoT device capable to gather data from air, analyze and display it to the user.
-	
-	There are areas in which it can be improved...
-
-	thorough data analysis 
-
-
+	Air pollution is an increasing problem on which many people and companies are working.\\
+	In cities around the world shared methods of transportation like scooters and bikes have started to grow in popularity and the more people use them the better air quality gets in term of pollution released in the air.\\
+	Centralized solutions are currently the most used to detect air pollution particles like PM 2.5, PM 10, CO and CO2, but they only collect data in their proximity.\\
+	This essay describes the implementation of a PoC (Proof of Concept) wireless IoT device, ArduECO, capable to gather data from air, analyze and display it to the user.
+	ArduECO uses an Arduino-like board (NodeMCU) with a built in WiFi to send data recorded from an MQ-7 sensor for CO and a GPS module, in the cloud.
+	Here data is displayed on a map, with each marker indicating a reading from the device, as shown in Fig.~\ref{altervista}.\\
+	As described in Section \ref{improvements} there are areas in which ArduECO can be improved, both in hardware and software, including a thorough data analysis.
+	This could lead to the creation of a better platform which would allow each user of ArduECO to see his own ride, since this device is not intended to be standalone but to be spread out around the city.\\
+	Companies like Mobike should be able to integrate their hardware with this devices without making excessive modifications to their existing bikes, scooter companies should be able to do so as well.\\
+	With this kind of information people would be more actively stimulated to use shared green methods of transportation, knowing that by doing so their quality of life will get better in the near future.
+		
 \input{bib.tex}
 
 \end{document}
