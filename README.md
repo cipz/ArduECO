@@ -17,7 +17,7 @@ The circuit have been designed using [Fritzing](https://fritzing.org/).
 
 ### Arduino external libraries
 
-For interfacing with the peripherals attached to the board this project uses these libraries:
+For interfacing with the peripherals attached to the board, this project uses these libraries:
 - [SD Library](https://www.arduino.cc/en/reference/SD)
 - [MQ-7 Library](https://github.com/swatish17/MQ7-Library)
 - [GPS Library](https://www.arduinolibraries.info/libraries/tiny-gps), [usage instructions](https://www.instructables.com/id/How-to-Communicate-Neo-6M-GPS-to-Arduino/)
