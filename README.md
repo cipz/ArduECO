@@ -1,5 +1,10 @@
 # ArduECO
 
+## Edit: Publication
+With the help of [Prof. Claudio Palazzi](https://www.math.unipd.it/~cpalazzi/), this work has been published on IEEE's 2nd International Workshop on Social (Media) Sensing (SMS 2020) under the name "Air Quality Control through Bike Sharing Fleets":
+- (arXiv)[https://arxiv.org/abs/2007.08305]
+- (ResearchGate)[https://www.researchgate.net/publication/343005675_Air_Quality_Control_through_Bike_Sharing_Fleets]
+
 ArduECO is an IoT device developed using a NodeMCU board programmed with Arduino's C/C++ capable of tracking the amount of *CO (Carbon Monoxide)* in the air with a MQ-7 sensor, along GPS position and send it in the cloud to AWS's *IoT Core* and an SD Card to keep the data until it is sent in the cloud. 
 These are stored in a simple SQL database and displayed on a [website](ardueco.altervista.org) using [Google Maps JavaScript API's](https://developers.google.com/maps/documentation/javascript/tutorial).
 
