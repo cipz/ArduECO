@@ -5,7 +5,7 @@ With the help of [Prof. Claudio Palazzi](https://www.math.unipd.it/~cpalazzi/), 
 - [arXiv](https://arxiv.org/abs/2007.08305)
 - [ResearchGate](https://www.researchgate.net/publication/343005675_Air_Quality_Control_through_Bike_Sharing_Fleets)
 - [Slides](https://www.math.unipd.it/~cpalazzi/ArduECO/ArduECO%20IEEE%20Presentation%20FINAL.pdf)
-- [VideoPresentation](https://www.math.unipd.it/~cpalazzi/ArduECO/ArduECO.mp4)
+- [Video Presentation](https://www.math.unipd.it/~cpalazzi/ArduECO/ArduECO.mp4)
 
 ## Introduction
 
